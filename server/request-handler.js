@@ -11,7 +11,6 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-
 var data = [];
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -47,10 +46,13 @@ var requestHandler = function(request, response) {
     headers['Content-Type'] = 'application/json';
     response.writeHead(statusCode, headers);
     request.on('data', function(chunk) {
-      data.push(JSON.parse(chunk));      
+      var temp = JSON.parse(chunk);
+      //console.log(temp);
+      temp.objectId = Math.floor(Math.random() * 10000000);
+      temp.method = method;
+      data.push(temp);      
     });
     var responseBody = {
-      method: method,
       results: data
     };
     response.end(JSON.stringify(responseBody));

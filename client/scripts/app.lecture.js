@@ -40,17 +40,17 @@ var app = {
         order: '-createdAt'
       },
       success: function(data) {
-        //console.log(data);
+        console.log(data);
         if (!data.results || !data.results.length) { return; }
-
+           
         app.messages = data.results;
 
         var mostRecentMessage = app.messages[app.messages.length - 1];
-        console.log('app.messages.length: ', app.messages.length);
-        console.log('app.messages: ', data.results);        
+        //console.log('app.messages.length: ', app.messages.length);
+        //console.log('app.messages: ', data.results);        
         // console.log('enter if? ', mostRecentMessage.objectId !== app.lastMessageId);
-        console.log('mostRecentMessage.objectId: ', mostRecentMessage.objectId);
-        console.log('app.lastMessageId: ', app.lastMessageId);
+        //console.log('mostRecentMessage.objectId: ', mostRecentMessage.objectId);
+        //console.log('app.lastMessageId: ', app.lastMessageId);
         if (mostRecentMessage.objectId !== app.lastMessageId) {
           app.lastMessageId = mostRecentMessage.objectId;
 
