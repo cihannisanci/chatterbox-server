@@ -37,19 +37,25 @@ var requestHandler = function(request, response) {
     'access-control-allow-headers': 'content-type, accept',
     'access-control-max-age': 10 // Seconds.
   };
-  var statusCode = 200;
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
   var method = request.method;
 
-  if (method === 'POST' && request.url.split('?')[0] === '/classes/messages/') {
+  if (method === 'POST' && request.url.split('?')[0] === '/classes/messages') {
+    var statusCode = 201;
+    headers['Content-Type'] = 'application/json';
+    response.writeHead(statusCode, headers);
     request.on('data', function(chunk) {
       data.push(JSON.parse(chunk));      
     });
-    statusCode = 201;
-  } else if (method === 'GET' && request.url.split('?')[0] === '/classes/messages/') {
-   
+    var responseBody = {
+      method: method,
+      results: data
+    };
+    response.end(JSON.stringify(responseBody));
+  } else if (method === 'GET' && request.url.split('?')[0] === '/classes/messages') {
+    var statusCode = 200;
     headers['Content-Type'] = 'application/json';
     response.writeHead(statusCode, headers);
     var responseBody = {
@@ -58,7 +64,14 @@ var requestHandler = function(request, response) {
     };
     response.end(JSON.stringify(responseBody));
   } else {
-    statusCode = 404;
+    var statusCode = 404;
+    headers['Content-Type'] = 'application/json';
+    response.writeHead(statusCode, headers);
+    var responseBody = {
+      method: method,
+      results: ''
+    };
+    response.end(JSON.stringify(responseBody));
   }
   
 

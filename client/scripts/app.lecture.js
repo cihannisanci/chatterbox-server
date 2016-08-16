@@ -2,7 +2,7 @@ var app = {
 
   //TODO: The current 'handleUsernameClick' function just toggles the class 'friend'
   //to all messages sent by the user
-  server: 'http://127.0.0.1:3000/classes/messages/',
+  server: 'http://127.0.0.1:3000/classes/messages',
   username: 'anonymous',
   roomname: 'lobby',
   messages: [],
@@ -46,14 +46,18 @@ var app = {
         app.messages = data.results;
 
         var mostRecentMessage = app.messages[app.messages.length - 1];
-
+        console.log('app.messages.length: ', app.messages.length);
+        console.log('app.messages: ', data.results);        
+        // console.log('enter if? ', mostRecentMessage.objectId !== app.lastMessageId);
+        console.log('mostRecentMessage.objectId: ', mostRecentMessage.objectId);
+        console.log('app.lastMessageId: ', app.lastMessageId);
         if (mostRecentMessage.objectId !== app.lastMessageId) {
           app.lastMessageId = mostRecentMessage.objectId;
 
           app.renderMessages(app.messages);
           app.renderRoomList(app.messages);
         }
-
+        // console.log('success fetch');
       },
       error: function(error) {
         console.error('fetch fails', error);
@@ -119,7 +123,7 @@ var app = {
       type: 'POST',
       data: JSON.stringify(message),
       success: function(data) {
-        console.log('successssss!!!!');
+        console.log('success POST');
         app.$message.val('');
         app.fetch();
       },
